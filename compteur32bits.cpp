@@ -8,6 +8,8 @@
 
 
 #include <avr/io.h> 
+#include <util/delay.h>
+//#define F_CPU 14.7456E6;
 
 int main()
 {
@@ -15,6 +17,7 @@ int main()
   DDRB = 0xff; // PORT B est en mode sortie
   DDRC = 0xff; // PORT C est en mode sortie
   DDRD = 0xff; // PORT D est en mode sortie
+  unsigned long compteu=0;
   unsigned long compteur=0; // le compteur est initialise a 0.
                             // c'est un compteur de 32 bits
 
@@ -25,11 +28,30 @@ int main()
     PORTD = compteur;       // PORTD = 8 bits de large,
                             // il prend les bits de 0 a 7 du compteur
     PORTC = compteur >> 8;  // PORTC = 8 bits de large,
-                            // il prend les bits de 8 a 15 du compteur
+    
+    
+
+
+    PORTB = 0x01;    
+     _delay_ms(3150);                   // il prend les bits de 8 a 15 du compteur
+
                             // en faisant un decallage de 8 bits.
-    PORTB = 0x55; // PORTB = 8 bits de large,
+    for(int i=0; i< 30;i++){
+    PORTB = 0x02; // PORTB = 8 bits de large,
+    _delay_ms(100);
+    // PORTB = 0x5a;
+    PORTB = 0x01;
+     _delay_ms(10);
+     }
+
+    PORTB = 0x02; 
+     _delay_ms(3150);
+    
+    
                             // il prend les bits de 16 a 23 du compteur
                             // en faisant un decallage de 16 bits.
+                            //01010101 - 10100101= rouge
+                            //10101010 - 01011010= vert
     PORTA = compteur >> 24; // PORTA = 8 bits de large,
                             // il prend les bits de 24 a 31 du compteur
                             // en faisant un decallage de 24 bits.
